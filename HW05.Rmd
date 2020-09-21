@@ -1,0 +1,64 @@
+---
+title: "HW 5"
+author: "KaizeYi"
+date: "9/21/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(ggplot2)
+```
+
+
+##PROBLEM 1 
+```{r}
+library(here)
+library(tidyverse)
+historical_path <- here("historical_guide.csv")
+history <- read_csv(historical_path,
+                    col_types = cols(
+                      Year = col_integer(),
+                      Stages = col_integer(),
+                      Started = col_integer(),
+                      Ended = col_integer(),
+                      Distance = col_integer(),
+                      Hour = col_integer(),
+                      Minutes = col_integer(),
+                      Seconds = col_integer(),
+                      Pace = col_double(),
+                      Winner = col_character(),
+                      Country = col_character(),
+                      Age= col_integer()
+                      )
+                    )
+```
+Pace should be double, because there is fraction for pace.
+
+##Problem 2
+```{r}
+  ggplot(history)+
+    geom_histogram(mapping = aes(x = Age), binwidth = 1.5)+
+    labs(title = "The Age Winning")
+```
+most of the cyclist win tour de France at their late 20s age
+
+##problem 3
+```{r}
+history%>%
+  filter(Distance > 3000)%>%
+  ggplot(mapping = aes(x = Pace, y = Distance))+
+  geom_point()+
+  geom_smooth(method = "lm", se=FALSE)+
+  labs(title = "Pace VS. Distance")
+```
+I find out that as the Distance decrease, pace increase. (formula for pace: min/km)
+In the early Tour de France, the distance is too short. It's below 3000 km, I cleaned it out.
+
+
+
+
+
+
