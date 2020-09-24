@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 ```
 
+<span style="color: green; font-size: 14pt">You still have formatting problems here: Because you did not leave a space between ## and "PROBLEM 1", it is not formatted like a header.  Be sure to leave a space between ## and the name of the header. </span> 
 
 ##PROBLEM 1 
 ```{r}
@@ -37,6 +38,8 @@ history <- read_csv(historical_path,
 ```
 Pace should be double, because there is fraction for pace.
 
+<span style="color: green; font-size: 14pt">So... did you change the Pace variable to double?  What was it before? What happened with it?</span> 
+
 ##Problem 2
 ```{r}
   ggplot(history)+
@@ -44,6 +47,15 @@ Pace should be double, because there is fraction for pace.
     labs(title = "The Age Winning")
 ```
 most of the cyclist win tour de France at their late 20s age
+
+<span style="color: green; font-size: 14pt">I thought for a moment we might be getting something bimodal here, but I think it might be an artifact.  It's possible this binwidth is a little too granular--there are not a lot of winners in any age bracket.  Take a look at the ages with 10 or more winners:</span> 
+
+```{r}
+history %>%
+  count(Age) %>%
+  filter(n >= 10)
+```
+
 
 ##problem 3
 ```{r}
@@ -57,6 +69,18 @@ history%>%
 I find out that as the Distance decrease, pace increase. (formula for pace: min/km)
 In the early Tour de France, the distance is too short. It's below 3000 km, I cleaned it out.
 
+<span style="color: green; font-size: 14pt">Ah, I think this is kind of interesting, and it makes sense.</span> 
+
+<span style="color: green; font-size: 14pt">I'm wondering about those filtered points (1903-1905).  It's odd that these much shorter distances also resulted in very low pace times--it feels like something weird is going on here.  I'm also curious about why the distances started smaller, leapt upward, and seem to be declining since then:</span> 
+
+```{r}
+ggplot(history, aes(x = Year, y = Distance)) +
+  geom_line() +
+  labs(title="Early Jump, Then a Long Decline", subtitle = "Tour de France Distances", 
+       x = "Year", y = "Distance (km)")
+```
+
+<span style="color: green; font-size: 14pt">It leave me wondering what makes the early races different.</span> 
 
 
 
